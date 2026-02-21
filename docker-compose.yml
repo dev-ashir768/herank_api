@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  # The Backend Node.js API
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: herank_api
+    restart: always
+    ports:
+      - '5000:5000'
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    networks:
+      - herank-network
+
+  # The Postgres Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: herank_db
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER:-herank_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-herank_password}
+      POSTGRES_DB: ${DB_NAME:-herank_db}
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - herank-network
+
+# Networks
+networks:
+  herank-network:
+    driver: bridge
+
+# Volumes (To keep database data safe even if container deletes)
+volumes:
+  pgdata:
