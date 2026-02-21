@@ -12,6 +12,8 @@ services:
       - '5000:5000'
     env_file:
       - .env
+    environment:
+      - DATABASE_URL=postgresql://${DB_USER:-herank_user}:${DB_PASSWORD:-herank_password}@postgres:5432/${DB_NAME:-herank_db}
     depends_on:
       - postgres
     networks:
