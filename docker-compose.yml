@@ -13,7 +13,7 @@ services:
     env_file:
       - .env
     environment:
-      - DATABASE_URL=postgresql://${DB_USER:-herank_user}:${DB_PASSWORD:-herank_password}@postgres:5432/${DB_NAME:-herank_db}
+      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}
     depends_on:
       - postgres
     networks:
@@ -25,9 +25,9 @@ services:
     container_name: herank_db
     restart: always
     environment:
-      POSTGRES_USER: ${DB_USER:-herank_user}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-herank_password}
-      POSTGRES_DB: ${DB_NAME:-herank_db}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
     ports:
       - '5432:5432'
     volumes:
