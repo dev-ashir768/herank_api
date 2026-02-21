@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # The Backend Node.js API
   api:
@@ -10,10 +8,29 @@ services:
     restart: always
     ports:
       - '5000:5000'
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}
+    depends_on:
+      - postgres
+    networks:
+      - herank-network
+
+  # Prisma Studio Service
+  studio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: herank_studio
+    restart: always
+    command: npx prisma studio --port 5555 --browser none
+    ports:
       - '5555:5555'
     env_file:
       - .env
     environment:
+      - HOST=0.0.0.0
       - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}
     depends_on:
       - postgres
@@ -36,11 +53,9 @@ services:
     networks:
       - herank-network
 
-# Networks
 networks:
   herank-network:
     driver: bridge
 
-# Volumes (To keep database data safe even if container deletes)
 volumes:
   pgdata:
