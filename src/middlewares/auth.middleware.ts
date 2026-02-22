@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import { ApiResponse } from "../types/response.type";
-import { JWTAccessTokenResponse } from "../types/auth.type";
+import { ApiResponse } from "../types";
+import { JWTAccessTokenResponse } from "../types";
 import { verifyAccessToken } from "../utils/jwt.util";
 
 export const authMiddleware = {

@@ -15,8 +15,7 @@ import {
   SignupResponse,
   RefreshTokenResponse,
   JWTRefreshTokenResponse,
-} from "../types/auth.type";
-import { Role } from "../../generated/prisma/enums";
+} from "../types";
 
 export const authService = {
   createUser: async (data: SignupInput): Promise<SignupResponse> => {
@@ -28,23 +27,69 @@ export const authService = {
       throw new Error("Email already registered");
     }
 
+    const menuIds = data.permissions.map((p) => p.menuId);
+    const existingMenus = await prisma.menus.findMany({
+      where: { id: { in: menuIds } },
+      select: { id: true },
+    });
+
+    if (existingMenus.length !== menuIds.length) {
+      throw new Error("One or more Menu IDs are invalid");
+    }
+
     const hashedPassword = await hashPassword(data.password);
 
-    return prisma.user.create({
+    const newUser = await prisma.user.create({
       data: {
         email: data.email,
         password: hashedPassword,
-        role: data.role || Role.USER,
+        role: data.role,
+        permissions: {
+          create: data.permissions.map((permissions) => ({
+            menuId: permissions.menuId,
+            canView: permissions.canView,
+            canCreate: permissions.canCreate,
+            canUpdate: permissions.canUpdate,
+            canDelete: permissions.canDelete,
+          })),
+        },
       },
       select: {
         id: true,
         email: true,
         role: true,
+        permissions: {
+          select: {
+            menuId: true,
+            canView: true,
+            canCreate: true,
+            canUpdate: true,
+            canDelete: true,
+            menu: {
+              select: {
+                title: true,
+                icon: true,
+                url: true,
+                parentId: true,
+              },
+            },
+          },
+        },
         createdAt: true,
         updatedAt: true,
       },
     });
+
+    return {
+      id: newUser.id,
+      email: newUser.email,
+      role: newUser.role,
+      permissions: newUser.permissions,
+      createdAt: newUser.createdAt,
+      updatedAt: newUser.updatedAt,
+    };
   },
+
   loginUser: async (data: LoginInput): Promise<LoginResponse> => {
     const user = await prisma.user.findUnique({
       where: {
@@ -83,6 +128,7 @@ export const authService = {
       },
     };
   },
+
   refreshToken: async (
     data: RefreshTokenInput,
   ): Promise<RefreshTokenResponse> => {

@@ -12,7 +12,7 @@ import { morganStream } from "./utils/logger.util";
 
 // Import routes
 import authRoutes from "./routes/auth.routes";
-import { ApiResponse } from "./types/response.type";
+import { ApiResponse } from "./types";
 
 const app: Application = express();
 // Middlewares

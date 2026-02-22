@@ -9,6 +9,26 @@ export const authSchema = {
         .string({ message: "Password is required" })
         .min(8, "Password must be at least 8 characters long"),
       role: z.enum(Role, { message: "Role is required" }).optional(),
+      permissions: z
+        .array(
+          z.object({
+            menuId: z.number({ message: "Menu ID is required" }),
+            canView: z
+              .boolean({ message: "Can view is required" })
+              .default(false),
+            canCreate: z
+              .boolean({ message: "Can create is required" })
+              .default(false),
+            canUpdate: z
+              .boolean({ message: "Can update is required" })
+              .default(false),
+            canDelete: z
+              .boolean({ message: "Can delete is required" })
+              .default(false),
+          }),
+          { message: "Permissions are required" },
+        )
+        .min(1, "At least one permission is required."),
     }),
   }),
   login: z.object({

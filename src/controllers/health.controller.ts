@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import { prisma } from "../config/db";
 import { config } from "../config";
-import { ApiResponse } from "../types/response.type";
+import { ApiResponse } from "../types";
 
 export const healthController = {
   healthCheck: asyncHandler(

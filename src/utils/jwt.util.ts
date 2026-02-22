@@ -6,7 +6,7 @@ import {
 } from "../types/auth.type";
 
 export const generateAccessToken = (payload: JWTAccessTokenResponse) => {
-  return jwt.sign(payload, config.JWT_ACCESS_SECRET, { expiresIn: "15m" });
+  return jwt.sign(payload, config.JWT_ACCESS_SECRET, { expiresIn: "60m" });
 };
 
 export const generateRefreshToken = (payload: JWTRefreshTokenResponse) => {

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { authService } from "../services/auth.service";
 import asyncHandler from "express-async-handler";
-import { ApiResponse } from "../types/response.type";
+import { ApiResponse } from "../types";
 import { ApiRes } from "../utils/apiResponse.util";
 
 export const authController = {

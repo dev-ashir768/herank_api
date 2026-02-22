@@ -14,15 +14,48 @@ enum Role {
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
-  email        String   @unique
+  id           Int           @id @default(autoincrement())
+  email        String        @unique
   password     String
-  role         Role     @default(USER)
-  refreshToken String?  @db.Text
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  role         Role          @default(USER)
+  refreshToken String?       @db.Text
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  permissions  Permissions[]
 
   @@index([email])
   @@index([createdAt])
   @@map("users")
+}
+
+model Menus {
+  id          Int           @id @default(autoincrement())
+  title       String
+  url         String
+  icon        String
+  description String?
+  parentId    Int?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  permissions Permissions[]
+
+  @@index([id])
+  @@map("menus")
+}
+
+model Permissions {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  menuId    Int
+  canView   Boolean  @default(false)
+  canCreate Boolean  @default(false)
+  canUpdate Boolean  @default(false)
+  canDelete Boolean  @default(false)
+  user      User     @relation(fields: [userId], references: [id])
+  menu      Menus    @relation(fields: [menuId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, menuId])
+  @@map("permissions")
 }
