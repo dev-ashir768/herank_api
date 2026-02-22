@@ -39,7 +39,7 @@ services:
 
   # The Postgres Database
   postgres:
-    image: postgres:15-alpine
+    image: postgres:15
     container_name: herank_db
     restart: always
     environment:
