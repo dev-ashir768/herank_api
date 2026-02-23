@@ -2,6 +2,7 @@ node_modules
 dist
 .env
 /generated/prisma
+ecosystem.config.js
 
 # Winston logs
 logs/

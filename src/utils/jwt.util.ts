@@ -1,9 +1,6 @@
 import jwt from "jsonwebtoken";
 import { config } from "../config";
-import {
-  JWTAccessTokenResponse,
-  JWTRefreshTokenResponse,
-} from "../types/auth.type";
+import { JWTAccessTokenResponse, JWTRefreshTokenResponse } from "../types";
 
 export const generateAccessToken = (payload: JWTAccessTokenResponse) => {
   return jwt.sign(payload, config.JWT_ACCESS_SECRET, { expiresIn: "60m" });
