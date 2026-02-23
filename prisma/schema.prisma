@@ -19,6 +19,8 @@ model User {
   password     String
   role         Role          @default(USER)
   refreshToken String?       @db.Text
+  isActive     Boolean       @default(true)
+  deletedAt    DateTime?
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   permissions  Permissions[]
@@ -35,6 +37,8 @@ model Menus {
   icon        String
   description String?
   parentId    Int?
+  isActive    Boolean       @default(true)
+  deletedAt   DateTime?
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   permissions Permissions[]

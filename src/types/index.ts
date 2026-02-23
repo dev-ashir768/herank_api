@@ -24,6 +24,7 @@ export interface LoginResponse {
   accessToken: string;
   refreshToken: string;
   user: User;
+  permissions: Permission[];
 }
 
 // Refresh Token Response
@@ -37,6 +38,8 @@ export type User = {
   id: number;
   email: string;
   role: Role;
+  isActive: boolean;
+  deletedAt: Date | null;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -64,6 +67,8 @@ export interface SignupResponse {
   id: number;
   email: string;
   role: Role;
+  isActive: boolean;
+  deletedAt: Date | null;
   permissions: Permission[];
   createdAt: Date;
   updatedAt: Date;

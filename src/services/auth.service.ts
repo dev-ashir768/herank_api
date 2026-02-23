@@ -16,20 +16,41 @@ import {
   RefreshTokenResponse,
   JWTRefreshTokenResponse,
 } from "../types";
+import { Menus, Permissions, User } from "../../generated/prisma/client";
 
 export const authService = {
-  createUser: async (data: SignupInput): Promise<SignupResponse> => {
-    const existingUser = await prisma.user.findUnique({
-      where: { email: data.email },
+  getExistingUser: async (email: string): Promise<User | null> => {
+    return await prisma.user.findUnique({
+      where: { email },
     });
+  },
+
+  permissionsByUserId: async (
+    userId: number,
+  ): Promise<(Permissions & { menu: Menus })[] | null> => {
+    return await prisma.permissions.findMany({
+      where: { userId },
+      include: {
+        menu: true,
+      },
+    });
+  },
+
+  createUser: async (data: SignupInput): Promise<SignupResponse> => {
+    const existingUser = await authService.getExistingUser(data.email);
 
     if (existingUser) {
-      throw new Error("Email already registered");
+      console.log("existingUser", existingUser);
+      if (existingUser.isActive) {
+        throw new Error("Email already registered");
+      } else {
+        throw new Error("Account is disabled or not found.");
+      }
     }
 
     const menuIds = data.permissions.map((p) => p.menuId);
     const existingMenus = await prisma.menus.findMany({
-      where: { id: { in: menuIds } },
+      where: { id: { in: menuIds }, isActive: true },
       select: { id: true },
     });
 
@@ -75,6 +96,8 @@ export const authService = {
             },
           },
         },
+        isActive: true,
+        deletedAt: true,
         createdAt: true,
         updatedAt: true,
       },
@@ -85,22 +108,22 @@ export const authService = {
       email: newUser.email,
       role: newUser.role,
       permissions: newUser.permissions,
+      isActive: newUser.isActive,
+      deletedAt: newUser.deletedAt,
       createdAt: newUser.createdAt,
       updatedAt: newUser.updatedAt,
     };
   },
 
   loginUser: async (data: LoginInput): Promise<LoginResponse> => {
-    const user = await prisma.user.findUnique({
-      where: {
-        email: data.email,
-      },
-    });
+    const user = await authService.getExistingUser(data.email);
 
-    if (!user) throw new Error("User not found");
+    if (!user) throw new Error("Account not found.");
+    if (!user.isActive) throw new Error("Account is disabled.");
+
+    const permissions = await authService.permissionsByUserId(user.id);
 
     const isPasswordValid = await comparePassword(data.password, user.password);
-
     if (!isPasswordValid) throw new Error("Invalid password");
 
     const accessToken = generateAccessToken({
@@ -123,9 +146,26 @@ export const authService = {
         id: user.id,
         email: user.email,
         role: user.role,
+        isActive: user.isActive,
+        deletedAt: user.deletedAt,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
       },
+      permissions: permissions!
+        .filter((p) => p.menu.isActive)
+        .map((p) => ({
+          menuId: p.menuId,
+          canView: p.canView,
+          canCreate: p.canCreate,
+          canUpdate: p.canUpdate,
+          canDelete: p.canDelete,
+          menu: {
+            title: p.menu.title,
+            icon: p.menu.icon,
+            url: p.menu.url,
+            parentId: p.menu.parentId,
+          },
+        })),
     };
   },
 
