@@ -43,6 +43,7 @@ model Menus {
   url         String
   icon        String
   description String?
+  menuId      Int?          @unique
   parentId    Int?
   isActive    Boolean       @default(true)
   deletedAt   DateTime?
