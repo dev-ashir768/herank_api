@@ -8,7 +8,8 @@ const router = Router();
 
 router.post(
   "/signup",
-  authMiddleware.protect(["SUPER_ADMIN", "ADMIN"]),
+  authMiddleware.verifyToken,
+  authMiddleware.restrictTo(["SUPER_ADMIN", "ADMIN"]),
   validate(authSchema.signup),
   authController.signup,
 );

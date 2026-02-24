@@ -1,3 +1,4 @@
+import { Menus } from "../../generated/prisma/client";
 import { Role } from "../../generated/prisma/enums";
 
 // API Response
@@ -73,6 +74,9 @@ export interface SignupResponse {
   createdAt: Date;
   updatedAt: Date;
 }
+
+// Menu Response
+export interface MenuResponse extends Menus {}
 
 declare global {
   namespace Express {

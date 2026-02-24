@@ -13,6 +13,13 @@ enum Role {
   USER
 }
 
+enum PermissionAction {
+  VIEW
+  CREATE
+  UPDATE
+  DELETE
+}
+
 model User {
   id           Int           @id @default(autoincrement())
   email        String        @unique

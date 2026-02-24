@@ -13,6 +13,7 @@ import { morganStream } from "./utils/logger.util";
 // Import routes
 import authRoutes from "./routes/auth.routes";
 import { ApiResponse } from "./types";
+import menuRoutes from "./routes/menu.routes";
 
 const app: Application = express();
 // Middlewares
@@ -53,6 +54,7 @@ const limiter = rateLimit({
 app.get("/health", healthController.healthCheck);
 app.use("/api", limiter);
 app.use(`${config.API_PREFIX}/auth`, authRoutes);
+app.use(`${config.API_PREFIX}/menus`, menuRoutes);
 
 // Catch-all 404 Handler for Unknown Routes
 app.use((req, res: Response<ApiResponse>, _next) => {
