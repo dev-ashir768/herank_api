@@ -20,6 +20,11 @@ enum PermissionAction {
   DELETE
 }
 
+enum UpdateMode {
+  REPLACE
+  MERGE
+}
+
 model User {
   id           Int           @id @default(autoincrement())
   email        String        @unique
@@ -70,4 +75,5 @@ model Permissions {
 
   @@unique([userId, menuId])
   @@map("permissions")
+  
 }

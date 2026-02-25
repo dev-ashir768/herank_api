@@ -13,6 +13,7 @@ router.post(
   validate(authSchema.signup),
   authController.signup,
 );
+
 router.post("/login", validate(authSchema.login), authController.login);
 router.post("/refresh", validate(authSchema.refresh), authController.refresh);
 
