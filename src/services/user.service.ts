@@ -50,7 +50,7 @@ export const userService = {
       role: otherData.role,
     };
 
-    if (data.updateMode === "REPLACE") {
+    if (updateMode === "REPLACE") {
       updateData.permissions = {
         deleteMany: {},
         create: permissions.map((p) => ({ ...p })),

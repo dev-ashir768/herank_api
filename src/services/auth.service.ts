@@ -202,7 +202,7 @@ export const authService = {
         accessToken,
         refreshToken,
       };
-    } catch (error) {
+    } catch {
       throw new Error("Invalid or expired refresh token");
     }
   },

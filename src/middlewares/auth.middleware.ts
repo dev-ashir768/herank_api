@@ -17,7 +17,7 @@ export const authMiddleware = {
 
       req.user = decoded;
       next();
-    } catch (error) {
+    } catch {
       return ApiRes.error(res, "Invalid token", 401);
     }
   },
@@ -25,7 +25,7 @@ export const authMiddleware = {
   restrictTo:
     (roles: string[]) =>
     (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
-      if (!roles.includes(req.user?.role!)) {
+      if (!req.user || !roles.includes(req.user.role)) {
         return ApiRes.error(
           res,
           "You do not have permission to perform this action",

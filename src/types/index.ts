@@ -88,9 +88,10 @@ export interface UserByIdResponse {
 }
 
 // Menu Response
-export interface MenuResponse extends Menus {}
+export type MenuResponse = Menus;
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Express {
     interface Request {
       user?: JWTAccessTokenResponse;
