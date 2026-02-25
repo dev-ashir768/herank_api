@@ -16,11 +16,11 @@ export const validate =
       if (error instanceof ZodError) {
         return res.status(400).json({
           status: 0,
-          message: `${error.issues.map((issue)=> issue.message).join(", ")}`,
+          message: `${error.issues.map((issue) => issue.message).join(", ")}`,
           data: [],
         });
       }
-      
+
       next(error);
     }
   };

@@ -9,7 +9,8 @@ export const userSchema = {
       email: z.email("Email is required"),
       password: z
         .string({ message: "Password is required" })
-        .min(8, "Password must be at least 8 characters long").optional(),
+        .min(8, "Password must be at least 8 characters long")
+        .optional(),
       role: z.enum(Role, { message: "Role is required" }).optional(),
       updateMode: z.enum(UpdateMode, { message: "Update mode is required" }),
       permissions: z

@@ -85,7 +85,7 @@ export interface UserByIdResponse {
   deletedAt: Date | null;
   createdAt: Date;
   updatedAt: Date;
-};
+}
 
 // Menu Response
 export interface MenuResponse extends Menus {}

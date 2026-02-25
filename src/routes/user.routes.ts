@@ -13,6 +13,12 @@ router.get(
   authMiddleware.restrictTo(["SUPER_ADMIN", "ADMIN", "USER"]),
   userController.getUserById,
 );
-router.put("/", validate(userSchema.updateUser), authMiddleware.verifyToken, authMiddleware.restrictTo(["SUPER_ADMIN", "ADMIN", "USER"]), userController.updateUserById)
+router.put(
+  "/",
+  validate(userSchema.updateUser),
+  authMiddleware.verifyToken,
+  authMiddleware.restrictTo(["SUPER_ADMIN", "ADMIN", "USER"]),
+  userController.updateUserById,
+);
 
 export default router;
