@@ -7,13 +7,15 @@ import { ApiResponse } from "../types";
 export const healthController = {
   healthCheck: asyncHandler(
     async (_req: Request, res: Response<ApiResponse>) => {
-      await prisma.$queryRaw`SELECT 1`;
+      const dbCheck = await prisma.$queryRaw<
+        { result: number }[]
+      >`SELECT 1 as result`;
 
       const healthData = {
         status: "UP",
         timestamp: new Date().toISOString(),
         uptime: process.uptime(),
-        db_status: "CONNECTED",
+        db_status: dbCheck ? "CONNECTED" : "DISCONNECTED",
         environment:
           config.NODE_ENV === "development" ? "Development" : "Production",
       };
