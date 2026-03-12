@@ -75,5 +75,515 @@ model Permissions {
 
   @@unique([userId, menuId])
   @@map("permissions")
-  
+}
+
+// -------------------------------------------------------------
+// CMS MODULES - Home Page Sections
+// -------------------------------------------------------------
+
+model SeoMeta {
+  id                   Int     @id @default(autoincrement())
+  seoTitle             String? @db.VarChar(60)
+  seoDescription       String? @db.VarChar(160)
+  seoKeywords          String?
+  seoCanonicalUrl      String?
+  seoMetaImage         String?
+  seoRobots            String?
+  seoSchema            Json?
+  openGraphTitle       String?
+  openGraphDescription String?
+  openGraphImage       String?
+  twitterTitle         String?
+  twitterDescription   String?
+  twitterImage         String?
+
+  // Relations
+  hero         HeroSection?
+  clientLogos  ClientLogosSection?
+  services     ServicesSection?
+  features     FeaturesSection?
+  stats        StatsSection?
+  testimonials TestimonialsSection?
+  pricing      PricingSection?
+  blog         BlogSection?
+  cta          CtaSection?
+  contact      ContactSection?
+  footer       FooterSection?
+
+  // Contact Page specific
+  workingHours WorkingHoursSection?
+  inquiryForm  InquiryFormSection?
+  faq          FaqSection?
+  socialMedia  SocialMediaSection?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("seo_meta")
+}
+
+// -------------------------------------------------------------
+// 1. Hero Section
+// -------------------------------------------------------------
+model HeroSection {
+  id                       Int      @id @default(autoincrement())
+  heroTitle                String
+  heroSubtitle             String?
+  heroDescription          String   @db.Text
+  heroBackgroundImage      String?
+  heroPrimaryButtonLabel   String?
+  heroPrimaryButtonLink    String?
+  heroSecondaryButtonLabel String?
+  heroSecondaryButtonLink  String?
+  heroTrustedByText        String?
+  heroTrustedLogos         String[] // Array of image URLs
+  heroVideo                String?
+  heroAnimation            String? // JSON file URL or content
+
+  seoMetaId Int?     @unique
+  seoMeta   SeoMeta? @relation(fields: [seoMetaId], references: [id])
+
+  pageIdentifier String @default("home") // E.g., "home", "contact"
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("hero_sections")
+}
+
+// -------------------------------------------------------------
+// 2. Client Logos Section
+// -------------------------------------------------------------
+model ClientLogosSection {
+  id                  Int     @id @default(autoincrement())
+  clientsSectionTitle String
+  clientsDescription  String? @db.Text
+
+  logos ClientLogo[]
+
+  seoMetaId Int?     @unique
+  seoMeta   SeoMeta? @relation(fields: [seoMetaId], references: [id])
+
+  pageIdentifier String @default("home") // E.g., "home", "contact"
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("client_logos_sections")
+}
+
+model ClientLogo {
+  id        Int     @id @default(autoincrement())
+  logoImage String
+  logoLink  String?
+
+  sectionId Int
+  section   ClientLogosSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  @@map("client_logos")
+}
+
+// -------------------------------------------------------------
+// 3. Services Section
+// -------------------------------------------------------------
+model ServicesSection {
+  id                      Int     @id @default(autoincrement())
+  servicesSectionTitle    String
+  servicesSectionSubtitle String?
+
+  services ServiceItem[]
+
+  seoMetaId Int?     @unique
+  seoMeta   SeoMeta? @relation(fields: [seoMetaId], references: [id])
+
+  pageIdentifier String @default("home") // E.g., "home", "contact"
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("services_sections")
+}
+
+model ServiceItem {
+  id                 Int     @id @default(autoincrement())
+  serviceTitle       String
+  serviceDescription String  @db.Text
+  serviceIcon        String?
+  serviceImage       String?
+  serviceLink        String?
+
+  sectionId Int
+  section   ServicesSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  @@map("service_items")
+}
+
+// -------------------------------------------------------------
+// 4. Features / Benefits Section
+// -------------------------------------------------------------
+model FeaturesSection {
+  id                      Int     @id @default(autoincrement())
+  featuresSectionTitle    String
+  featuresSectionSubtitle String?
+
+  features FeatureItem[]
+
+  seoMetaId Int?     @unique
+  seoMeta   SeoMeta? @relation(fields: [seoMetaId], references: [id])
+
+  pageIdentifier String @default("home") // E.g., "home", "contact"
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("features_sections")
+}
+
+model FeatureItem {
+  id                 Int     @id @default(autoincrement())
+  featureTitle       String
+  featureDescription String  @db.Text
+  featureIcon        String?
+  featureImage       String?
+  featureCtaLabel    String?
+  featureCtaLink     String?
+
+  sectionId Int
+  section   FeaturesSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  @@map("feature_items")
+}
+
+// -------------------------------------------------------------
+// 5. Agency Statistics Section
+// -------------------------------------------------------------
+model StatsSection {
+  id                Int    @id @default(autoincrement())
+  statsSectionTitle String
+
+  stats StatItem[]
+
+  seoMetaId Int?     @unique
+  seoMeta   SeoMeta? @relation(fields: [seoMetaId], references: [id])
+
+  pageIdentifier String @default("home") // E.g., "home", "contact"
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("stats_sections")
+}
+
+model StatItem {
+  id         Int     @id @default(autoincrement())
+  statNumber String
+  statLabel  String
+  statIcon   String?
+
+  sectionId Int
+  section   StatsSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  @@map("stat_items")
+}
+
+// -------------------------------------------------------------
+// 6. Testimonials Section
+// -------------------------------------------------------------
+model TestimonialsSection {
+  id                       Int    @id @default(autoincrement())
+  testimonialsSectionTitle String
+
+  testimonials TestimonialItem[]
+
+  seoMetaId Int?     @unique
+  seoMeta   SeoMeta? @relation(fields: [seoMetaId], references: [id])
+
+  pageIdentifier String @default("home") // E.g., "home", "contact"
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("testimonials_sections")
+}
+
+model TestimonialItem {
+  id                  Int     @id @default(autoincrement())
+  testimonialName     String
+  testimonialCompany  String?
+  testimonialPosition String?
+  testimonialReview   String  @db.Text
+  testimonialRating   Int     @default(5)
+  testimonialImage    String?
+
+  sectionId Int
+  section   TestimonialsSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  @@map("testimonial_items")
+}
+
+// -------------------------------------------------------------
+// 7. Pricing Section
+// -------------------------------------------------------------
+model PricingSection {
+  id                  Int    @id @default(autoincrement())
+  pricingSectionTitle String
+
+  plans PricingPlan[]
+
+  seoMetaId Int?     @unique
+  seoMeta   SeoMeta? @relation(fields: [seoMetaId], references: [id])
+
+  pageIdentifier String @default("home") // E.g., "home", "contact"
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("pricing_sections")
+}
+
+model PricingPlan {
+  id               Int      @id @default(autoincrement())
+  planName         String
+  planPrice        String
+  planDescription  String?  @db.Text
+  planFeatures     String[] // Array of feature strings, or JSON
+  planCtaLabel     String?
+  planCtaLink      String?
+  planPopularBadge Boolean  @default(false)
+
+  sectionId Int
+  section   PricingSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  @@map("pricing_plans")
+}
+
+// -------------------------------------------------------------
+// 8. Blog Section
+// -------------------------------------------------------------
+model BlogSection {
+  id                     Int     @id @default(autoincrement())
+  blogSectionTitle       String
+  blogSectionDescription String? @db.Text
+
+  posts BlogPost[]
+
+  seoMetaId Int?     @unique
+  seoMeta   SeoMeta? @relation(fields: [seoMetaId], references: [id])
+
+  pageIdentifier String @default("home") // E.g., "home", "contact"
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("blog_sections")
+}
+
+model BlogPost {
+  id              Int       @id @default(autoincrement())
+  blogPostTitle   String
+  blogPostExcerpt String?   @db.Text
+  blogPostImage   String?
+  blogPostSlug    String    @unique
+  blogPostAuthor  String?
+  blogPostDate    DateTime?
+
+  sectionId Int
+  section   BlogSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  @@map("blog_posts")
+}
+
+// -------------------------------------------------------------
+// 9. Call to Action (CTA) Section
+// -------------------------------------------------------------
+model CtaSection {
+  id                    Int     @id @default(autoincrement())
+  ctaSectionTitle       String
+  ctaSectionDescription String? @db.Text
+  ctaButtonLabel        String?
+  ctaButtonLink         String?
+  ctaBackgroundImage    String?
+  ctaFormEnabled        Boolean @default(false)
+  ctaFormFields         Json?
+
+  seoMetaId Int?     @unique
+  seoMeta   SeoMeta? @relation(fields: [seoMetaId], references: [id])
+
+  pageIdentifier String @default("home") // E.g., "home", "contact"
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("cta_sections")
+}
+
+// -------------------------------------------------------------
+// 10. Contact Section
+// -------------------------------------------------------------
+model ContactSection {
+  id                        Int     @id @default(autoincrement())
+  contactSectionTitle       String
+  contactSectionDescription String? @db.Text
+  contactEmail              String?
+  contactPhone              String?
+  contactWhatsapp           String?
+  contactAddress            String? @db.Text
+  contactCity               String?
+  contactCountry            String?
+  contactMapEmbedUrl        String?
+  contactForm               String? // Form component
+  contactFormFields         Json?
+
+  seoMetaId Int?     @unique
+  seoMeta   SeoMeta? @relation(fields: [seoMetaId], references: [id])
+
+  pageIdentifier String @default("home") // E.g., "home", "contact"
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("contact_sections")
+}
+
+// -------------------------------------------------------------
+// 11. Footer Section
+// -------------------------------------------------------------
+model FooterSection {
+  id                      Int     @id @default(autoincrement())
+  footerLogo              String?
+  footerDescription       String? @db.Text
+  footerCopyright         String?
+  footerPrivacyPolicyLink String?
+  footerTermsLink         String?
+  footerNewsletterEnabled Boolean @default(false)
+  footerNewsletterTitle   String?
+
+  menuLinks   FooterMenuLink[]
+  socialLinks FooterSocialLink[]
+
+  seoMetaId Int?     @unique
+  seoMeta   SeoMeta? @relation(fields: [seoMetaId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("footer_sections")
+}
+
+model FooterMenuLink {
+  id    Int    @id @default(autoincrement())
+  label String
+  url   String
+
+  sectionId Int
+  section   FooterSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  @@map("footer_menu_links")
+}
+
+model FooterSocialLink {
+  id   Int    @id @default(autoincrement())
+  icon String
+  url  String
+
+  sectionId Int
+  section   FooterSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  @@map("footer_social_links")
+}
+
+// -------------------------------------------------------------
+// NEW: Working Hours Section (Contact Page)
+// -------------------------------------------------------------
+model WorkingHoursSection {
+  id                Int     @id @default(autoincrement())
+  workingHoursTitle String
+  workingHours      String  @db.Text
+  supportHours      String?
+
+  seoMetaId Int?     @unique
+  seoMeta   SeoMeta? @relation(fields: [seoMetaId], references: [id])
+
+  pageIdentifier String @default("contact") // Mostly "contact" page
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("working_hours_sections")
+}
+
+// -------------------------------------------------------------
+// NEW: Inquiry Form Section (Contact Page)
+// -------------------------------------------------------------
+model InquiryFormSection {
+  id                 Int      @id @default(autoincrement())
+  formTitle          String
+  formDescription    String?  @db.Text
+  servicesDropdown   String[] // Tags or List
+  formButtonLabel    String?
+  formSuccessMessage String?
+  formErrorMessage   String?
+
+  seoMetaId Int?     @unique
+  seoMeta   SeoMeta? @relation(fields: [seoMetaId], references: [id])
+
+  pageIdentifier String @default("contact")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("inquiry_form_sections")
+}
+
+// -------------------------------------------------------------
+// NEW: FAQ Section
+// -------------------------------------------------------------
+model FaqSection {
+  id              Int    @id @default(autoincrement())
+  faqSectionTitle String
+
+  items FaqItem[]
+
+  seoMetaId Int?     @unique
+  seoMeta   SeoMeta? @relation(fields: [seoMetaId], references: [id])
+
+  pageIdentifier String @default("contact")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("faq_sections")
+}
+
+model FaqItem {
+  id          Int    @id @default(autoincrement())
+  faqQuestion String
+  faqAnswer   String @db.Text
+
+  sectionId Int
+  section   FaqSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  @@map("faq_items")
+}
+
+// -------------------------------------------------------------
+// NEW: Social Media Links Section (Contact Page)
+// -------------------------------------------------------------
+model SocialMediaSection {
+  id                 Int     @id @default(autoincrement())
+  socialFacebookUrl  String?
+  socialInstagramUrl String?
+  socialLinkedinUrl  String?
+  socialTiktokUrl    String?
+  socialYoutubeUrl   String?
+
+  seoMetaId Int?     @unique
+  seoMeta   SeoMeta? @relation(fields: [seoMetaId], references: [id])
+
+  pageIdentifier String @default("contact")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("social_media_sections")
 }

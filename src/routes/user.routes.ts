@@ -7,6 +7,30 @@ import { userSchema } from "../schemas/user.schema";
 const router = Router();
 
 router.get(
+  "/",
+  validate(userSchema.getAllUsers),
+  authMiddleware.verifyToken,
+  authMiddleware.restrictTo(["SUPER_ADMIN", "ADMIN"]),
+  userController.getAllUsers,
+);
+
+router.post(
+  "/",
+  validate(userSchema.createUser),
+  authMiddleware.verifyToken,
+  authMiddleware.restrictTo(["SUPER_ADMIN", "ADMIN"]),
+  userController.createUser,
+);
+
+router.delete(
+  "/:userId",
+  validate(userSchema.deleteUserById),
+  authMiddleware.verifyToken,
+  authMiddleware.restrictTo(["SUPER_ADMIN", "ADMIN"]),
+  userController.deleteUserById,
+);
+
+router.get(
   "/:userId",
   validate(userSchema.userById),
   authMiddleware.verifyToken,

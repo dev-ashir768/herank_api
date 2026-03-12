@@ -1,10 +1,79 @@
 import { Prisma } from "../../generated/prisma/client";
 import { prisma } from "../config/db";
-import { UpdateUserInput } from "../schemas/user.schema";
+import { UpdateUserInput, CreateUserInput } from "../schemas/user.schema";
 import { UserByIdResponse } from "../types";
 import { hashPassword } from "../utils/password.util";
 
 export const userService = {
+  getAllUsers: async (page = 1, limit = 10) => {
+    const skip = (page - 1) * limit;
+
+    const [users, total] = await Promise.all([
+      prisma.user.findMany({
+        skip,
+        take: limit,
+        select: {
+          id: true,
+          email: true,
+          role: true,
+          isActive: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      }),
+      prisma.user.count(),
+    ]);
+
+    return {
+      data: users,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
+  },
+
+  createUser: async (data: CreateUserInput) => {
+    const existingUser = await prisma.user.findUnique({
+      where: { email: data.email },
+    });
+
+    if (existingUser) {
+      throw new Error("Email already in use");
+    }
+
+    const hashedPassword = await hashPassword(data.password);
+
+    const user = await prisma.user.create({
+      data: {
+        ...data,
+        password: hashedPassword,
+      },
+      select: {
+        id: true,
+        email: true,
+        role: true,
+        isActive: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    return user;
+  },
+
+  deleteUserById: async (userId: number) => {
+    const user = await prisma.user.delete({
+      where: { id: userId },
+    });
+    return user;
+  },
+
   getUserById: async (userId: number): Promise<UserByIdResponse | null> => {
     const user = await prisma.user.findUnique({
       where: {

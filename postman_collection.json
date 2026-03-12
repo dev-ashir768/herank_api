@@ -1,0 +1,2529 @@
+{
+  "info": {
+    "name": "Herank API Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8000/api/v1",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "your_jwt_token_here",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Signup",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"password123\",\n  \"role\": \"ADMIN\",\n  \"permissions\": [\n    {\n      \"menuId\": 1,\n      \"canView\": true,\n      \"canCreate\": true,\n      \"canUpdate\": true,\n      \"canDelete\": true\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/signup",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "signup"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"your_refresh_token_here\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/refresh",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "refresh"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Menus",
+      "item": [
+        {
+          "name": "Get All Menus",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/menus/all",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "menus",
+                "all"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Menu By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/menus/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "menus",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Menu",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Dashboard\",\n  \"url\": \"/dashboard\",\n  \"icon\": \"dashboard-icon\",\n  \"description\": \"Main dashboard view\",\n  \"isActive\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/menus",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "menus"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Menu",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Dashboard Layout\",\n  \"isActive\": false\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/menus/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "menus",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Menu",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/menus/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "menus",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Permissions",
+      "item": [
+        {
+          "name": "Get All Permissions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/permissions?userId=1&menuId=1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "permissions"
+              ],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "1"
+                },
+                {
+                  "key": "menuId",
+                  "value": "1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Permission By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/permissions/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "permissions",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Permission",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 1,\n  \"menuId\": 1,\n  \"canView\": true,\n  \"canCreate\": false,\n  \"canUpdate\": false,\n  \"canDelete\": false\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/permissions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "permissions"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Permission",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"canView\": true,\n  \"canUpdate\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/permissions/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "permissions",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Permission",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/permissions/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "permissions",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users?page=1&limit=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get User By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"newuser@example.com\",\n  \"password\": \"password123\",\n  \"role\": \"USER\",\n  \"isActive\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 1,\n  \"email\": \"updateduser@example.com\",\n  \"password\": \"newpassword123\",\n  \"role\": \"USER\",\n  \"updateMode\": \"FULL_UPDATE\",\n  \"permissions\": [\n    {\n      \"menuId\": 1,\n      \"canView\": true,\n      \"canCreate\": false,\n      \"canUpdate\": false,\n      \"canDelete\": false\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "CMS",
+      "item": [
+        {
+          "name": "Hero",
+          "item": [
+            {
+              "name": "Get All Hero Sections",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/hero",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "hero"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Hero Section By ID",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/hero/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "hero",
+                    "1"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Create Hero Section",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"heroTitle\": \"Build your next big thing\",\n  \"heroSubtitle\": \"Subtitle\",\n  \"heroDescription\": \"Description\",\n  \"heroPrimaryButtonLabel\": \"Get Started\",\n  \"heroPrimaryButtonLink\": \"/\",\n  \"pageIdentifier\": \"home\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cms/hero",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "hero"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Update Hero Section",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"heroTitle\": \"Build your next big thing\",\n  \"heroSubtitle\": \"Subtitle\",\n  \"heroDescription\": \"Description\",\n  \"heroPrimaryButtonLabel\": \"Get Started\",\n  \"heroPrimaryButtonLink\": \"/\",\n  \"pageIdentifier\": \"home\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cms/hero/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "hero",
+                    "1"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete Hero Section",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/hero/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "hero",
+                    "1"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Client Logos",
+          "item": [
+            {
+              "name": "Get All Client Logos Sections",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/client-logos",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "client-logos"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Client Logos Section By ID",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/client-logos/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "client-logos",
+                    "1"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Create Client Logos Section",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clientsSectionTitle\": \"Our Clients\",\n  \"logos\": [\n    {\n      \"logoImage\": \"url\",\n      \"logoLink\": \"link\"\n    }\n  ]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cms/client-logos",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "client-logos"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Update Client Logos Section",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clientsSectionTitle\": \"Our Clients\",\n  \"logos\": [\n    {\n      \"logoImage\": \"url\",\n      \"logoLink\": \"link\"\n    }\n  ]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cms/client-logos/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "client-logos",
+                    "1"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete Client Logos Section",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/client-logos/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "client-logos",
+                    "1"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Services",
+          "item": [
+            {
+              "name": "Get All Services Sections",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/services",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "services"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Services Section By ID",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/services/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "services",
+                    "1"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Create Services Section",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"servicesSectionTitle\": \"Our Services\",\n  \"services\": [\n    {\n      \"serviceTitle\": \"Web Dev\",\n      \"serviceDescription\": \"Building webs\"\n    }\n  ]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cms/services",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "services"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Update Services Section",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"servicesSectionTitle\": \"Our Services\",\n  \"services\": [\n    {\n      \"serviceTitle\": \"Web Dev\",\n      \"serviceDescription\": \"Building webs\"\n    }\n  ]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cms/services/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "services",
+                    "1"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete Services Section",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/services/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "services",
+                    "1"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Features",
+          "item": [
+            {
+              "name": "Get All Features Sections",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/features",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "features"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Features Section By ID",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/features/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "features",
+                    "1"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Create Features Section",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"featuresSectionTitle\": \"Features\",\n  \"features\": [\n    {\n      \"featureTitle\": \"Fast\",\n      \"featureDescription\": \"Very fast\"\n    }\n  ]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cms/features",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "features"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Update Features Section",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"featuresSectionTitle\": \"Features\",\n  \"features\": [\n    {\n      \"featureTitle\": \"Fast\",\n      \"featureDescription\": \"Very fast\"\n    }\n  ]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cms/features/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "features",
+                    "1"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete Features Section",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/features/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "features",
+                    "1"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Stats",
+          "item": [
+            {
+              "name": "Get All Stats Sections",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/stats",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "stats"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Stats Section By ID",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/stats/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "stats",
+                    "1"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Create Stats Section",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"statsSectionTitle\": \"Stats\",\n  \"stats\": [\n    {\n      \"statNumber\": \"100+\",\n      \"statLabel\": \"Clients\"\n    }\n  ]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cms/stats",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "stats"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Update Stats Section",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"statsSectionTitle\": \"Stats\",\n  \"stats\": [\n    {\n      \"statNumber\": \"100+\",\n      \"statLabel\": \"Clients\"\n    }\n  ]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cms/stats/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "stats",
+                    "1"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete Stats Section",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/stats/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "stats",
+                    "1"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Testimonials",
+          "item": [
+            {
+              "name": "Get All Testimonials Sections",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/testimonials",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "testimonials"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Testimonials Section By ID",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/testimonials/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "testimonials",
+                    "1"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Create Testimonials Section",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"testimonialsSectionTitle\": \"Testimonials\",\n  \"testimonials\": [\n    {\n      \"testimonialName\": \"John\",\n      \"testimonialReview\": \"Great!\"\n    }\n  ]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cms/testimonials",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "testimonials"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Update Testimonials Section",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"testimonialsSectionTitle\": \"Testimonials\",\n  \"testimonials\": [\n    {\n      \"testimonialName\": \"John\",\n      \"testimonialReview\": \"Great!\"\n    }\n  ]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cms/testimonials/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "testimonials",
+                    "1"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete Testimonials Section",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/testimonials/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "testimonials",
+                    "1"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Pricing",
+          "item": [
+            {
+              "name": "Get All Pricing Sections",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/pricing",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "pricing"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Pricing Section By ID",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/pricing/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "pricing",
+                    "1"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Create Pricing Section",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pricingSectionTitle\": \"Pricing\",\n  \"plans\": [\n    {\n      \"planName\": \"Basic\",\n      \"planPrice\": \"$10\"\n    }\n  ]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cms/pricing",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "pricing"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Update Pricing Section",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pricingSectionTitle\": \"Pricing\",\n  \"plans\": [\n    {\n      \"planName\": \"Basic\",\n      \"planPrice\": \"$10\"\n    }\n  ]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cms/pricing/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "pricing",
+                    "1"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete Pricing Section",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/pricing/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "pricing",
+                    "1"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Blog",
+          "item": [
+            {
+              "name": "Get All Blog Sections",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/blog",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "blog"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Blog Section By ID",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/blog/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "blog",
+                    "1"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Create Blog Section",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"blogSectionTitle\": \"Blog\",\n  \"posts\": [\n    {\n      \"blogPostTitle\": \"Hello World\",\n      \"blogPostSlug\": \"hello-world\"\n    }\n  ]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cms/blog",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "blog"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Update Blog Section",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"blogSectionTitle\": \"Blog\",\n  \"posts\": [\n    {\n      \"blogPostTitle\": \"Hello World\",\n      \"blogPostSlug\": \"hello-world\"\n    }\n  ]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cms/blog/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "blog",
+                    "1"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete Blog Section",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/blog/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "blog",
+                    "1"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "CTA",
+          "item": [
+            {
+              "name": "Get All CTA Sections",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/cta",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "cta"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get CTA Section By ID",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/cta/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "cta",
+                    "1"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Create CTA Section",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ctaSectionTitle\": \"Ready?\",\n  \"ctaButtonLabel\": \"Join Now\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cms/cta",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "cta"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Update CTA Section",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ctaSectionTitle\": \"Ready?\",\n  \"ctaButtonLabel\": \"Join Now\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cms/cta/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "cta",
+                    "1"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete CTA Section",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/cta/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "cta",
+                    "1"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Contact",
+          "item": [
+            {
+              "name": "Get All Contact Sections",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/contact",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "contact"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Contact Section By ID",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/contact/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "contact",
+                    "1"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Create Contact Section",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"contactSectionTitle\": \"Contact Us\",\n  \"contactEmail\": \"hi@example.com\",\n  \"contactPhone\": \"123\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cms/contact",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "contact"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Update Contact Section",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"contactSectionTitle\": \"Contact Us\",\n  \"contactEmail\": \"hi@example.com\",\n  \"contactPhone\": \"123\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cms/contact/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "contact",
+                    "1"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete Contact Section",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/contact/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "contact",
+                    "1"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Footer",
+          "item": [
+            {
+              "name": "Get All Footer Sections",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/footer",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "footer"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Footer Section By ID",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/footer/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "footer",
+                    "1"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Create Footer Section",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"footerDescription\": \"Bye bye\",\n  \"menuLinks\": [\n    {\n      \"label\": \"Home\",\n      \"url\": \"/\"\n    }\n  ]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cms/footer",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "footer"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Update Footer Section",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"footerDescription\": \"Bye bye\",\n  \"menuLinks\": [\n    {\n      \"label\": \"Home\",\n      \"url\": \"/\"\n    }\n  ]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cms/footer/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "footer",
+                    "1"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete Footer Section",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/footer/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "footer",
+                    "1"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Working Hours",
+          "item": [
+            {
+              "name": "Get All Working Hours Sections",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/working-hours",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "working-hours"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Working Hours Section By ID",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/working-hours/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "working-hours",
+                    "1"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Create Working Hours Section",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"workingHoursTitle\": \"Hours\",\n  \"workingHours\": \"9-5\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cms/working-hours",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "working-hours"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Update Working Hours Section",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"workingHoursTitle\": \"Hours\",\n  \"workingHours\": \"9-5\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cms/working-hours/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "working-hours",
+                    "1"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete Working Hours Section",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/working-hours/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "working-hours",
+                    "1"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Inquiry Form",
+          "item": [
+            {
+              "name": "Get All Inquiry Form Sections",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/inquiry-form",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "inquiry-form"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Inquiry Form Section By ID",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/inquiry-form/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "inquiry-form",
+                    "1"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Create Inquiry Form Section",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"formTitle\": \"Inquiry\",\n  \"servicesDropdown\": [\n    \"Web\"\n  ]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cms/inquiry-form",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "inquiry-form"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Update Inquiry Form Section",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"formTitle\": \"Inquiry\",\n  \"servicesDropdown\": [\n    \"Web\"\n  ]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cms/inquiry-form/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "inquiry-form",
+                    "1"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete Inquiry Form Section",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/inquiry-form/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "inquiry-form",
+                    "1"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "FAQ",
+          "item": [
+            {
+              "name": "Get All FAQ Sections",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/faq",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "faq"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get FAQ Section By ID",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/faq/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "faq",
+                    "1"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Create FAQ Section",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"faqSectionTitle\": \"FAQs\",\n  \"items\": [\n    {\n      \"faqQuestion\": \"?\",\n      \"faqAnswer\": \"!\"\n    }\n  ]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cms/faq",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "faq"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Update FAQ Section",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"faqSectionTitle\": \"FAQs\",\n  \"items\": [\n    {\n      \"faqQuestion\": \"?\",\n      \"faqAnswer\": \"!\"\n    }\n  ]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cms/faq/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "faq",
+                    "1"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete FAQ Section",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/faq/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "faq",
+                    "1"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Social Media",
+          "item": [
+            {
+              "name": "Get All Social Media Sections",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/social-media",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "social-media"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Social Media Section By ID",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/social-media/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "social-media",
+                    "1"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Create Social Media Section",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"socialFacebookUrl\": \"fb.com\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cms/social-media",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "social-media"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Update Social Media Section",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"socialFacebookUrl\": \"fb.com\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cms/social-media/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "social-media",
+                    "1"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete Social Media Section",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/cms/social-media/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cms",
+                    "social-media",
+                    "1"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

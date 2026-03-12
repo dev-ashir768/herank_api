@@ -15,6 +15,8 @@ import authRoutes from "./routes/auth.routes";
 import { ApiResponse } from "./types";
 import menuRoutes from "./routes/menu.routes";
 import userRoutes from "./routes/user.routes";
+import permissionRoutes from "./routes/permission.routes";
+import cmsRoutes from "./routes/cms.routes";
 
 const app: Application = express();
 // Middlewares
@@ -57,6 +59,8 @@ app.use("/api", limiter);
 app.use(`${config.API_PREFIX}/auth`, authRoutes);
 app.use(`${config.API_PREFIX}/menus`, menuRoutes);
 app.use(`${config.API_PREFIX}/users`, userRoutes);
+app.use(`${config.API_PREFIX}/permissions`, permissionRoutes);
+app.use(`${config.API_PREFIX}/cms`, cmsRoutes);
 
 // Catch-all 404 Handler for Unknown Routes
 app.use((req, res: Response<ApiResponse>, _next) => {
